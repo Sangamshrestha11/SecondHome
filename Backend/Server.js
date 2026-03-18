@@ -8,12 +8,26 @@ const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 
-const FILE = "./users.json";
+import path from "path";
+const FILE = path.resolve("users.json"); 
 
 // Read users
 const getUsers = () => {
-  const data = fs.readFileSync(FILE);
-  return JSON.parse(data);
+  try {
+    if (!fs.existsSync(FILE)) {
+      fs.writeFileSync(FILE, "[]");
+    }
+
+    const data = fs.readFileSync(FILE, "utf-8");
+
+    if (!data) return [];
+
+    return JSON.parse(data);
+
+  } catch (error) {
+    console.log("Error reading users:", error);
+    return [];
+  }
 };
 
 // Save users
@@ -23,27 +37,33 @@ const saveUsers = (users) => {
 
 /* SIGNUP */
 app.post("/api/auth/signup", (req, res) => {
-  const { fullName, email, password } = req.body;
+  try {
+    const { fullName, email, password } = req.body;
+    console.log("Signup request:", req.body);
 
-  const users = getUsers();
+    const users = getUsers();
+    console.log("Existing users:", users);
 
-  const userExists = users.find((u) => u.email === email);
+    if (!fullName || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-  if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
-  }
+    const userExists = users.find(u => u.email === email);
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-  const newUser = {
-    id: Date.now(),
-    fullName,
-    email,
-    password,
-  };
+    const newUser = { id: Date.now(), fullName, email, password };
+    users.push(newUser);
 
-  users.push(newUser);
-  saveUsers(users);
+    saveUsers(users);
+    console.log("User saved successfully");
 
-  res.json({ message: "Signup successful" });
+    res.json({ message: "Signup successful" });
+  } catch (error) {
+  console.error("Signup error FULL:", error);
+  res.status(500).json({ message: "Server error", error: error.message });
+}
 });
 
 /* LOGIN */
