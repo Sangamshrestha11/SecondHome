@@ -10,44 +10,60 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!email || !password || (state === "Sign Up" && !fullName)) {
-      alert("Please fill all fields");
-      return;
-    }
+  if (!email || !password || (state === "Sign Up" && !fullName)) {
+    alert("Please fill all fields");
+    return;
+  }
 
-    try {
-      if (state === "Sign Up") {
-        await axios.post("http://localhost:8000/api/auth/signup", {
-          fullName,
-          email,
-          password,
-        });
-        alert("Signup successful");
-        setState("Log In");
-      } else {
-        const response = await axios.post("http://localhost:8000/auth", {
-          email,
-          password,
-        });
+  try {
+    if (state === "Sign Up") {
+      const res = await axios.post("http://localhost:8000/api/auth/signup", {
+        fullName,
+        email,
+        password,
+      });
 
-        if (response.status === 200) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+      console.log("Signup response:", res.data);
+      alert(res.data.message || "Signup successful");
+      setState("Log In");
 
-          alert("Login success");
-          navigate("/home");
-        }
+    } else {
+
+      const response = await axios.post("http://localhost:8000/auth", {
+        email,
+        password,
+      });
+
+      console.log("Login response:", response.data);
+
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        alert("Login success");
+        navigate("/home");
       }
-    } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong");
     }
-  };
+
+  } catch (error) {
+
+    console.error("Full error:", error);
+
+    if (error.response) {
+      alert(error.response.data.message || "Server error");
+    } else if (error.request) {
+      alert("Cannot connect to server");
+    } else {
+      alert("Something went wrong");
+    }
+  }
+};
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 font-sans px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br bg-[rgb(15,23,42)] shadow-md font-sans px-4">
       <div className="bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 p-8 w-full max-w-sm">
 
         <form onSubmit={handleSubmit}>
