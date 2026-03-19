@@ -1,0 +1,19 @@
+.room-card{
+width:250px;
+padding:20px;
+margin:20px auto;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
+background:bg- rgb(15,23,42);
+}
+
+.room-card button{
+margin-top:10px;
+padding:8px 15px;
+background:#2c7be5;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
