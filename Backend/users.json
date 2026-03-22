@@ -1,8 +1,20 @@
 [
   {
-    "id": 1773753358177,
-    "fullName": "dilasha",
-    "email": "dilasha@gmail.com",
-    "password": "1234"
+    "id": 1774056400439,
+    "fullName": "Dilasha Thapa",
+    "email": "dilashathapa15@gmail.com",
+    "password": "myself"
+  },
+  {
+    "id": 1774062527761,
+    "fullName": "Jigyasha Thapa",
+    "email": "jigyashathapa22@gmail.com",
+    "password": "jigs12"
+  },
+  {
+    "id": 1774168352456,
+    "fullName": "Nisha Acharya",
+    "email": "acharyanisha2063@gmail.com",
+    "password": "nisha2"
   }
 ]
