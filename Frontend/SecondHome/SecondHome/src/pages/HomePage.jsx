@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import HomeImage from "../assets/HomeImage.jpg";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false); // <-- Added state
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -32,12 +34,47 @@ export default function HomePage() {
         {/* Right Icons */}
         <div className="flex items-center gap-8 text-white">
 
-          {/* Profile */}
-          <div className="flex flex-col items-center cursor-pointer hover:text-blue-400">
-            <span className="text-2xl">👤</span>
-            <span className="text-sm">Profile</span>
-          </div>
+         {/* Profile */}
+<div
+  className="flex flex-col items-center cursor-pointer relative"
+  onClick={() => setShowProfile(!showProfile)}
+>
+  <span className="text-2xl hover:text-blue-400">👤</span>
+  <span className="text-sm hover:text-blue-400">Profile</span>
 
+  {/* Profile Panel */}
+  {showProfile && (
+    <div className="absolute right-0 mt-5 w-64 bg-white text-black rounded-xl shadow-2xl p-5 z-50 border border-gray-200">
+
+      {/* Top text */}
+      <h1 className="text-xl font-bold text-blue-600 mb-2 text-center">Second Home User</h1>
+
+      {/* Profile label */}
+      <h2 className="text-md font-bold text-gray-700 mb-4 text-center">PROFILE</h2>
+
+      {/* User Card */}
+<div className="flex flex-col items-center bg-blue-50 rounded-lg p-4">
+  {/* Profile pic */}
+  <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center mb-3">
+    <span className="text-2xl text-gray-500">👤</span>
+  </div>
+
+  {/* Only actual username, centered */}
+  <p className="font-semibold text-gray-800 text-center">
+    {JSON.parse(localStorage.getItem("user")).fullName}
+  </p>
+
+  {/* Only actual user email, centered */}
+  <p className="text-gray-600 text-sm text-center">
+    {JSON.parse(localStorage.getItem("user")).email}
+  </p>
+</div>
+
+    </div>
+  )}
+</div>
+
+          
           {/* Notification */}
           <div className="flex flex-col items-center cursor-pointer hover:text-blue-400">
             <span className="text-2xl">🔔</span>
@@ -72,7 +109,6 @@ export default function HomePage() {
 
         </div>
 
-
         {/* -------- MAIN IMAGE AREA -------- */}
         <div className="flex-1 relative min-h-screen">
 
@@ -103,7 +139,6 @@ export default function HomePage() {
       <div className="fixed bottom-24 left-8 bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:bg-blue-700">
         <span className="text-white text-2xl">💬</span>
       </div>
-
 
       {/* -------- FOOTER -------- */}
       <footer className="bg-[rgb(15,23,42)] text-white text-center py-6 shadow-inner">
