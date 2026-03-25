@@ -14,6 +14,7 @@ export default function HomePage() {
 
   const sidebarItems = [
     { name: "Room Application", icon: "🏠" },
+    { name: "Accommodation", icon: "🛏️" },
     { name: "Maintenance Request", icon: "🛠️" },
     { name: "Payment", icon: "💳" },
     { name: "Location", icon: "📍" },
@@ -100,6 +101,11 @@ export default function HomePage() {
           {sidebarItems.map((item) => (
             <div
               key={item.name}
+              onClick={() => {
+                if (item.name === "Accommodation") {
+                  navigate("/accommodation");
+                }
+              }}
               className="flex items-center gap-3 bg-white text-black px-4 py-3 rounded-lg shadow-md cursor-pointer hover:bg-gray-200 transition transform hover:scale-105"
             >
               <span className="text-xl">{item.icon}</span>
