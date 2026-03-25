@@ -12,6 +12,13 @@ function App() {
   <Route path="/" element={<LoginPage />} />
   <Route path="/reset-password" element={<ResetPassword />} />
   <Route path="/home" element={<HomePage />} />
+      <<<<<<< dilasha
+  <Route path="/accommodation" element={<AccommodationPage />} />
+=======
+  <Route path="/" element={<Home />} />
+        <Route path="/apply" element={<RoomForm />} />
+
+>>>>>>> main
 
   </Routes>
   </BrowserRouter>
